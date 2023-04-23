@@ -1,0 +1,65 @@
+package com.practise.dynamicInput;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import com.jdbcUtil.JdbcConnection;
+
+public class InsertApp {
+
+	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+
+		// 1:Load and register Driver.
+		// From jdbc4.X, the above is done automatically.
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		String url = "jdbc:mysql://localhost:3306/spring";
+		String username = "root";
+		String password = "root";
+		
+		String sqlInsertQuery = "insert into student(`sid`,`sname`,`semail`) values (?,?,?)";
+		
+		Scanner input = new Scanner(System.in);
+		System.out.println("Enter student id:");
+		int sid = input.nextInt();
+		System.out.println("Enter student name:");
+		String sname = input.next();
+		System.out.println("Enter student email:");
+		String semail = input.next();
+		
+//		sname = "'"+sname+"'";
+//		semail = "'"+semail+"'";
+
+		try {
+			conn = JdbcConnection.getConnection();
+			if(conn!=null) {
+				pstmt = conn.prepareStatement(sqlInsertQuery);
+				if(pstmt!=null) {
+					pstmt.setInt(1,sid);
+					pstmt.setString(2, sname);
+					pstmt.setString(3, semail);
+					int rowsCount  = pstmt.executeUpdate();
+			
+					System.out.println("No of rows effected: "+rowsCount);
+				}
+				
+			}
+			
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 6: close the resources used.
+			JdbcConnection.closeConnection(null, pstmt, conn);
+			if(input != null) {
+				input.close();
+			}
+		}
+	}
+
+}

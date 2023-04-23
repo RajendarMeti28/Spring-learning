@@ -1,0 +1,42 @@
+package com.practise;
+
+public class BlobOperation {
+
+	public static void main(String[] args) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = JdbcConnection.getConnection();
+			
+			String sqlInsertQuery = "insert into person(`name`, `image`) values(?,?)";
+			
+			pstmt = conn.prepareStatement(sqlInsertQuery);
+			
+			pstmt.setString(1, "Bunny");
+			
+			File f = new File("bunny.jpg");
+			FileInputStream fis = new FileInputStream(f);
+			
+			//setting the input information
+			pstmt.setBlob(2, fis);
+			
+			System.out.println("Inserting image from:: "+ f.getAbsolutePath());
+			
+			int noOfRows = pstmt.executeUpdate();
+			
+			if(noOfRows == 1) {
+				System.out.println("record inserted succesfully..");
+			}else {
+				System.out.println("No records inserted..");
+			}
+			
+			
+		}catch(SQLException | FileNotFoundException se) {
+			se.printStackTrace();
+		}finally {
+			
+		}
+
+	}
+
+}

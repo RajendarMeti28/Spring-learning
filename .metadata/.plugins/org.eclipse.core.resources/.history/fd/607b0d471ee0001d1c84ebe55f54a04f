@@ -1,0 +1,74 @@
+package com.practise;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class TestApp {
+
+	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+		
+		
+		//1:Load and register Driver.
+		//From jdbc4.X, the above is done automatically.
+		
+		Connection conn = null;
+		Statement statement = null;
+		ResultSet rs = null;
+		
+		String url = "jdbc:mysql://localhost:3306/spring";
+		String username = "root";
+		String password = "root";
+		
+		try {
+			
+			//2: Establish the Connection
+			conn = DriverManager.getConnection(url,username,password);
+			
+			if(conn!=null) {
+				//3: Create Statement..
+				statement = conn.createStatement();
+				
+				if(statement!=null) {
+					//4: Send and Execute the query.
+
+					String selectQuery = "select sid, sname, semail from student";
+					rs = statement.executeQuery(selectQuery);
+					
+					if(rs!=null) {
+						//5: Process the results..
+						System.out.println("\tSID:\tSNAME:\tSEMAIL");
+						while(rs.next()){
+
+							Integer id = rs.getInt("sid");
+							String name = rs.getString("sname");
+							String email = rs.getString("semail");
+							
+							System.out.println("\t"+id+"\t"+name+"\t"+email);
+						
+						}
+					}
+				}
+			}
+			
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			//6: close the resources used.
+			if(rs!=null) {
+				rs.close();
+			}
+			if(statement!=null) {
+				statement.close();
+			}
+			if(conn!=null) {
+				conn.close();
+			}
+		}
+	}
+
+}

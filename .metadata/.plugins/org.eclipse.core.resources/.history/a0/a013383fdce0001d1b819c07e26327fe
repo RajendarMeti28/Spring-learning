@@ -1,0 +1,20 @@
+package com.practise;
+
+import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
+
+public class ConnectionPoolingApp {
+
+	public static void main(String[] args) {
+		
+		
+		//Creating a pooled connection object.
+		MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();
+		
+		dataSource.setUrl("jdbc:mysql://localhost:3306/spring");
+		dataSource.setUser("root");
+		dataSource.setPassword("root");
+		
+
+	}
+
+}

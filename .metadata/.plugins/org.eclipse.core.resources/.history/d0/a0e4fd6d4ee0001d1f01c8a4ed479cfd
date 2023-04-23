@@ -1,0 +1,14 @@
+package com.jdbcUtil;
+
+public class JdbcConnection {
+
+	
+	private JdbcConnection() {
+		
+	}
+	
+	public static Connection getConnection() throws SQLException {
+		
+		
+	}
+}

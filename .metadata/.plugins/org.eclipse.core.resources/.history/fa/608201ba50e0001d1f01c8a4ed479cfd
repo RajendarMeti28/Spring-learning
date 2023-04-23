@@ -1,0 +1,66 @@
+package com.practise.dynamicInput;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import com.jdbcUtil.JdbcConnection;
+
+public class SelectApp {
+
+	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+
+		// 1:Load and register Driver.
+		// From jdbc4.X, the above is done automatically.
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String url = "jdbc:mysql://localhost:3306/spring";
+		String username = "root";
+		String password = "root";
+		
+		String sqlInsertQuery = "select sid,sname,semail from student where sid=?";
+		
+		Scanner input = new Scanner(System.in);
+		System.out.println("Enter student id:");
+		int sid = input.nextInt();
+		
+//		sname = "'"+sname+"'";
+//		semail = "'"+semail+"'";
+
+		try {
+			conn = JdbcConnection.getConnection();
+			if(conn!=null) {
+				pstmt = conn.prepareStatement(sqlInsertQuery);
+				if(pstmt!=null) {
+					pstmt.setInt(1,sid);
+					rs = pstmt.executeQuery();
+				}
+				if(rs!=null) {
+					System.out.println("SID\tSNAME\tSEMAIL");
+					while(rs.next()) {
+						System.out.println(rs.getInt(1)+"\t"+rs.getString(2)+"\t"+rs.getString(3));
+						
+					}
+				}
+				
+			}
+			
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 6: close the resources used.
+			JdbcConnection.closeConnection(rs, pstmt, conn);
+			if(input != null) {
+				input.close();
+			}
+		}
+	}
+
+}

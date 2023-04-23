@@ -1,0 +1,42 @@
+package com.practise;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.jdbcUtil.JdbcConnection;
+
+public class InsertApp {
+
+	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+
+		// 1:Load and register Driver.
+		// From jdbc4.X, the above is done automatically.
+
+		Connection conn = null;
+		Statement statement = null;
+
+		String url = "jdbc:mysql://localhost:3306/spring";
+		String username = "root";
+		String password = "root";
+
+		try {
+			conn = JdbcConnection.getConnection();
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 6: close the resources used.
+			if (statement != null) {
+				statement.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+
+}

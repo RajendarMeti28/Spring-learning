@@ -1,0 +1,33 @@
+package com.practise;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.jdbcUtil.JdbcConnection;
+
+public class BlobOperation {
+
+	public static void main(String[] args) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = JdbcConnection.getConnection();
+			
+			String sqlInsertQuery = "insert into person(`name`, `image`) values(?,?)");
+			
+			pstmt = conn.prepareStatement(sqlInsertQuery);
+			
+			pstmt.setString(1, "Bunny");
+			
+			
+			
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}finally {
+			
+		}
+
+	}
+
+}

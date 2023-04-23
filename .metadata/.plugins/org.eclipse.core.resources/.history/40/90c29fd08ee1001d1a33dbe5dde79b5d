@@ -1,0 +1,31 @@
+package com.practise;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.jdbcUtil.JdbcConnection;
+
+public class TransactionApp {
+
+	public static void main(String[] args) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = JdbcConnection.getConnection();
+			
+			if(conn!= null) {
+				
+				
+			}	
+			
+		}catch(SQLException | IOException se) {
+			se.printStackTrace();
+		}finally {
+			JdbcConnection.closeConnection(null, pstmt, conn);
+		}
+
+	}
+
+}
